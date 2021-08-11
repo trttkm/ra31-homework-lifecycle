@@ -1,10 +1,15 @@
+import React from 'react';
+import { Header } from './components/Header';
+import AppRouter from './routes/AppRouter';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 function App() {
   return (
-    <div>
-      1
-    </div>
+    <>
+      <Header />
+      <AppRouter />
+    </>
   );
 }
 
