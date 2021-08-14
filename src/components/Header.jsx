@@ -4,13 +4,10 @@ export function Header() {
   return (
     <header>
       <Link to="/">
-        <button className="header-button">Cards</button>
+        <button className="header-button">World Clock</button>
       </Link>
-      <Link to="/decomposition">
-        <button className="header-button">Decomposition</button>
-      </Link>
-      <Link to="/collapse">
-        <button className="header-button">Collapse</button>
+      <Link to="/crud">
+        <button className="header-button">CRUD</button>
       </Link>
     </header>
   );

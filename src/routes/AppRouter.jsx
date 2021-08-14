@@ -1,14 +1,12 @@
 import { Route, Switch, withRouter } from 'react-router-dom';
-import CardsPage from '../components/CardsPage/CardsPage';
-import DecompositionPage from '../components/DecompositionPage/DecompositionPage';
-import CollapsePage from '../components/CollapsePage/CollapsePage';
+import NotesList from '../components/NotesList/NotesList';
+import WorldClock from '../components/WorldClock/WorldClock';
 
 const AppRouter = () => {
   return (
     <Switch>
-      <Route path="/" exact component={CardsPage} />
-      <Route path="/decomposition" component={DecompositionPage} />
-      <Route path="/collapse" component={CollapsePage} />
+      <Route path="/" exact component={WorldClock} />
+      <Route path="/crud" exact component={NotesList} />
     </Switch>
   );
 };
