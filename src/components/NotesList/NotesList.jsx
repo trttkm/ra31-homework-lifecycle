@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
+import { FaSync } from 'react-icons/all';
 import AddNoteForm from './AddNoteForm';
 import Note from './Note';
 
@@ -10,38 +11,32 @@ const NotesList = () => {
   const [form, setForm] = useState(INITIAL_FORM_STATE);
   
   useEffect(() => {
-    const getNotes = async () => {
-      return await fetchNotes();
-    };
-    
-    getNotes().then(response => setNotes(response));
+    getNotes();
   }, []);
   
-  const fetchNotes = async () => {
+  const getNotes = async () => {
     const response = await fetch('http://localhost:7777/notes');
     
-    return response.json();
+    response.json().then(response => setNotes(response));
   };
   
   const addNote = async (e) => {
     e.preventDefault();
     
     form.id = nanoid();
-    const response = await fetch('http://localhost:7777/notes', {
+    await fetch('http://localhost:7777/notes', {
       method: 'POST',
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify(form),
     });
     
-    const data = await response.json();
-    
-    setNotes([...notes, data]);
+    getNotes();
     setForm(INITIAL_FORM_STATE);
   };
   
   const deleteNote = async (id) => {
     await fetch(`http://localhost:7777/notes/${id}`, { method: 'DELETE' });
-    setNotes(notes.filter((note) => note.id !== id));
+    getNotes();
   };
   
   const onFieldChange = ({ target }) => {
@@ -50,7 +45,12 @@ const NotesList = () => {
   
   return (
     <div className="container py-4">
-      <h1>Notes</h1>
+      <div className="d-flex align-items-center">
+        <h1>Notes</h1>
+        <button className="ms-3 rounded-circle px-2 pb-2" onClick={getNotes}>
+          <FaSync />
+        </button>
+      </div>
       {notes.length > 0 ? (
         <div className="d-flex flex-wrap gap-3">
           {notes.map((note) => (
