@@ -1,6 +1,26 @@
-const AddClockItemForm = ({ form, onFieldChange, onSubmit }) => {
+import { nanoid } from 'nanoid';
+import { useState } from 'react';
+
+const INITIAL_FORM_STATE = { name: '', offset: '' };
+
+const AddClockItemForm = ({ onSubmit }) => {
+  const [form, setForm] = useState(INITIAL_FORM_STATE);
+  
+  const onFieldChange = ({ target }) => {
+    setForm(prev => ({ ...prev, [target.name]: target.value }));
+  };
+  
+  const addClock = (e) => {
+    e.preventDefault();
+    if (!form.name || !form.offset || form.offset < -12 || form.offset > 12) return;
+    
+    form.id = nanoid();
+    onSubmit(form);
+    setForm(INITIAL_FORM_STATE);
+  };
+  
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={addClock}>
       <input
         value={form.name}
         onChange={onFieldChange}

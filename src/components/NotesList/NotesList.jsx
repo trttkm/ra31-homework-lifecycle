@@ -1,14 +1,10 @@
-import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 import { FaSync } from 'react-icons/all';
 import AddNoteForm from './AddNoteForm';
 import Note from './Note';
 
-const INITIAL_FORM_STATE = { content: '' };
-
 const NotesList = () => {
   const [notes, setNotes] = useState([]);
-  const [form, setForm] = useState(INITIAL_FORM_STATE);
   
   useEffect(() => {
     getNotes();
@@ -20,27 +16,9 @@ const NotesList = () => {
     response.json().then(response => setNotes(response));
   };
   
-  const addNote = async (e) => {
-    e.preventDefault();
-    
-    form.id = nanoid();
-    await fetch('http://localhost:7777/notes', {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify(form),
-    });
-    
-    getNotes();
-    setForm(INITIAL_FORM_STATE);
-  };
-  
   const deleteNote = async (id) => {
     await fetch(`http://localhost:7777/notes/${id}`, { method: 'DELETE' });
-    getNotes();
-  };
-  
-  const onFieldChange = ({ target }) => {
-    setForm(prev => ({ ...prev, [target.name]: target.value }));
+    await getNotes();
   };
   
   return (
@@ -64,7 +42,7 @@ const NotesList = () => {
       ) : (
         'No records'
       )}
-      <AddNoteForm form={form} onSubmit={addNote} onFieldChange={onFieldChange} />
+      <AddNoteForm onSubmit={getNotes} />
     </div>
   );
 };
